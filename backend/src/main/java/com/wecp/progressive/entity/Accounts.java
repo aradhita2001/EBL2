@@ -1,7 +1,17 @@
 package com.wecp.progressive.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Accounts implements Comparable<Accounts>{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
+    
     private int customerId;
     private double balance;
 

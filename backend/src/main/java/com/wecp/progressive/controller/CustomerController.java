@@ -32,7 +32,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Integer> addCustomer(@RequestBody Customers customers) throws SQLException {
-        return new ResponseEntity<Integer>(customerService.addCustomer(customers), HttpStatus.OK);
+        return new ResponseEntity<Integer>(customerService.addCustomer(customers), HttpStatus.CREATED);
     }
 
     @PutMapping("/{customerId}")

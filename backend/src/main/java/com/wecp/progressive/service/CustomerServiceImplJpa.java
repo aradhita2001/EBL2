@@ -5,49 +5,47 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wecp.progressive.dao.CustomerDAO;
 import com.wecp.progressive.entity.Customers;
+import com.wecp.progressive.repository.CustomerRepository;
 
 @Service
 public class CustomerServiceImplJpa implements CustomerService {
 
     private static List<Customers> customerList = new ArrayList<Customers>();
-    private CustomerDAO customerDAO;
-
-    public CustomerServiceImplJpa(CustomerDAO customerDAO){
-        this.customerDAO = customerDAO;
-    }
     
+    @Autowired
+    private CustomerRepository customerRepository;
 
-    public CustomerServiceImplJpa() {
+    public CustomerServiceImplJpa(CustomerRepository customerRepository){
+        this.customerRepository = customerRepository;
     }
-
 
     @Override
     public List<Customers> getAllCustomers() throws SQLException {
-        return customerDAO.getAllCustomers();
+        return customerRepository.findAll();
     }
 
     @Override
     public Customers getCustomerById(int customerId) throws SQLException {
-        return customerDAO.getCustomerById(customerId);
+        return customerRepository.findById(customerId).get();
     }
 
     @Override
     public int addCustomer(Customers customers) throws SQLException {
-        return customerDAO.addCustomer(customers);
+        return customerRepository.save(customers).getCustomerId();
     }
 
     @Override
     public void updateCustomer(Customers customers) throws SQLException {
-        customerDAO.updateCustomer(customers);
+        customerRepository.save(customers);
     }
 
     @Override
     public void deleteCustomer(int customerId) throws SQLException {
-        customerDAO.deleteCustomer(customerId);
+        customerRepository.deleteById(customerId);
     }
 
     @Override
