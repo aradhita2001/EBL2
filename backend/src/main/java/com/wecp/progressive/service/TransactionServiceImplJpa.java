@@ -11,7 +11,7 @@ import com.wecp.progressive.repository.AccountRepository;
 import com.wecp.progressive.repository.TransactionRepository;
 
 @Service
-public class TransactionServiceImplJpa implements TransactionService{
+public class TransactionServiceImplJpa implements TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
@@ -19,7 +19,9 @@ public class TransactionServiceImplJpa implements TransactionService{
     @Autowired
     private AccountRepository accountRepository;
 
-    
+    public TransactionServiceImplJpa() {
+
+    }
 
     public TransactionServiceImplJpa(TransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
@@ -28,20 +30,17 @@ public class TransactionServiceImplJpa implements TransactionService{
 
     @Override
     public List<Transactions> getAllTransactions() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllTransactions'");
+        return transactionRepository.findAll();
     }
 
     @Override
     public Transactions getTransactionById(int transactionId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTransactionById'");
+        return transactionRepository.findById(transactionId).get();
     }
 
     @Override
     public int addTransaction(Transactions transaction) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addTransaction'");
+        return transactionRepository.save(transaction).getTransactionId();
     }
 
     @Override
@@ -61,6 +60,5 @@ public class TransactionServiceImplJpa implements TransactionService{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getTransactionsByCustomerId'");
     }
-
 
 }

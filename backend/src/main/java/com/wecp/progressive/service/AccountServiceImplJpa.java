@@ -15,32 +15,32 @@ public class AccountServiceImplJpa implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    public AccountServiceImplJpa (){
+
+    }
+
     public AccountServiceImplJpa(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
     @Override
     public List<Accounts> getAllAccounts() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllAccounts'");
+        return accountRepository.findAll();
     }
 
     @Override
     public List<Accounts> getAccountsByUser(int userId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAccountsByUser'");
+        return accountRepository.findByCustomerId(userId);
     }
 
     @Override
     public Accounts getAccountById(int accountId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAccountById'");
+        return accountRepository.findById(accountId).get();
     }
 
     @Override
     public int addAccount(Accounts accounts) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addAccount'");
+        return accountRepository.save(accounts).getAccountId();
     }
 
     @Override
@@ -57,8 +57,9 @@ public class AccountServiceImplJpa implements AccountService {
 
     @Override
     public List<Accounts> getAllAccountsSortedByBalance() throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllAccountsSortedByBalance'");
+        // List<Accounts> accounts = accountRepository.findAll();
+        // Collections.sort(accounts);
+        return accountRepository.findByOrderByBalance();
     }
 
     @Override

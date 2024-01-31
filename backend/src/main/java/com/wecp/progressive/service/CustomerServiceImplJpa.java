@@ -19,6 +19,9 @@ public class CustomerServiceImplJpa implements CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    public CustomerServiceImplJpa() {
+    }
+
     public CustomerServiceImplJpa(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
