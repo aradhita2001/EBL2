@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Accounts, Integer>{
-    public List<Accounts> findByCustomerId(int customerId);
+    public List<Accounts> findByCustomerCustomerId(int customerId);
     public List<Accounts> findByOrderByBalance();
 }

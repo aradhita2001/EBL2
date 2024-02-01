@@ -30,7 +30,7 @@ public class AccountServiceImplJpa implements AccountService {
 
     @Override
     public List<Accounts> getAccountsByUser(int userId) throws SQLException {
-        return accountRepository.findByCustomerId(userId);
+        return accountRepository.findByCustomerCustomerId(userId);
     }
 
     @Override
