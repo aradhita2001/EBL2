@@ -1,4 +1,24 @@
 package com.wecp.progressive.exception;
 
-public class WithdrawalLimitException {
+public class WithdrawalLimitException extends Exception{
+
+    public WithdrawalLimitException() {
+    }
+
+    public WithdrawalLimitException(String message) {
+        super(message);
+    }
+
+    public WithdrawalLimitException(Throwable cause) {
+        super(cause);
+    }
+
+    public WithdrawalLimitException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public WithdrawalLimitException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }
