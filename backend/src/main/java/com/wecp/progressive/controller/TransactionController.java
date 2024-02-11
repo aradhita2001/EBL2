@@ -29,15 +29,20 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<Integer> addTransaction(Transactions transaction) throws SQLException {
+    public ResponseEntity<Integer> addTransaction(@RequestBody Transactions transaction) throws SQLException {
         return new ResponseEntity<Integer>(transactionService.addTransaction(transaction), HttpStatus.CREATED);
     }
-
-    public ResponseEntity<Void> updateTransaction(int transactionId, Transactions transaction) {
-        return null;
+    
+    @PutMapping("/{transactionId}")
+    public ResponseEntity<Void> updateTransaction(@PathVariable int transactionId, @RequestBody Transactions transaction) throws SQLException {
+        transaction.setTransactionId(transactionId);
+        transactionService.updateTransaction(transaction);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> deleteTransaction(int transactionId) {
-        return null;
+    @DeleteMapping("/{transactionId}")
+    public ResponseEntity<Void> deleteTransaction(@PathVariable int transactionId) throws SQLException {
+        transactionService.deleteTransaction(transactionId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

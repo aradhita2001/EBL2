@@ -6,7 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.wecp.progressive.entity.Accounts;
 import com.wecp.progressive.entity.Transactions;
+import com.wecp.progressive.exception.AccountNotFoundException;
+import com.wecp.progressive.exception.OutOfBalanceException;
+import com.wecp.progressive.exception.WithdrawalLimitException;
 import com.wecp.progressive.repository.AccountRepository;
 import com.wecp.progressive.repository.TransactionRepository;
 
@@ -40,25 +44,91 @@ public class TransactionServiceImplJpa implements TransactionService {
 
     @Override
     public int addTransaction(Transactions transaction) throws SQLException {
+        String transactionType = transaction.getTransactionType();
+        double transactionAmount = transaction.getAmount();
+        
+        if(transactionType.equals("debit") && transactionAmount > 30000) throw new WithdrawalLimitException("withdrawal limit exceeded");
+
+        Accounts accounts = transaction.getAccounts();
+        double accountBalance = accounts.getBalance();
+
+        if(transactionType.equals("debit") && transactionAmount > accountBalance) throw new OutOfBalanceException("Not enough balance");
+
+        if(transactionType.equals("debit")){
+            accountBalance = accountBalance - transactionAmount;
+        }
+        else{
+            accountBalance = accountBalance + transactionAmount;
+        }
+
+        accounts.setBalance(accountBalance);
+        accountRepository.save(accounts);
+
         return transactionRepository.save(transaction).getTransactionId();
     }
 
     @Override
     public void updateTransaction(Transactions transaction) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateTransaction'");
+        
+        String transactionType = transaction.getTransactionType();
+        double transactionAmount = transaction.getAmount();
+        
+        if(transactionType.equals("debit") && transactionAmount > 30000) throw new WithdrawalLimitException("withdrawal limit exceeded");
+
+        Accounts accounts = transaction.getAccounts();
+        double accountBalance = accounts.getBalance();
+
+        if(transactionType.equals("debit") && transactionAmount > accountBalance) throw new OutOfBalanceException("Not enough balance");
+
+        
+        Transactions oldTransaction = transactionRepository.findById(transaction.getTransactionId()).get();
+        String oldTransactionType = oldTransaction.getTransactionType();
+        double oldTransactionAmount = oldTransaction.getAmount();
+
+        if(oldTransactionType.equals("debit")){
+            accountBalance = accountBalance + oldTransactionAmount;
+        }
+        else{
+            accountBalance = accountBalance -oldTransactionAmount;
+        }
+
+        if(transactionType.equals("debit")){
+            accountBalance = accountBalance - transactionAmount;
+        }
+        else{
+            accountBalance = accountBalance + transactionAmount;
+        }
+
+        accountRepository.save(accounts);
+        transactionRepository.save(transaction);
     }
 
     @Override
     public void deleteTransaction(int transactionId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteTransaction'");
+        Transactions transactions = transactionRepository.findById(transactionId).get();
+        String transactionType = transactions.getTransactionType();
+        double transactionAmount = transactions.getAmount();
+        Accounts accounts = transactions.getAccounts();
+        double accountBalance = accounts.getBalance();
+
+        if(transactionType.equals("debit")){
+            accountBalance = accountBalance + transactionAmount;
+        }
+        else{
+            accountBalance = accountBalance -transactionAmount;
+        }
+
+        accountRepository.save(accounts);
+        transactionRepository.deleteById(transactionId);
     }
 
     @Override
     public List<Transactions> getTransactionsByCustomerId(int customerId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTransactionsByCustomerId'");
+        List<Accounts> accounts = accountRepository.findByCustomerCustomerId(customerId);
+
+        if(accounts.isEmpty()) throw new AccountNotFoundException("No accounts found");
+
+        return transactionRepository.findByAccountsAccountId(accounts.iterator());
     }
 
 }
