@@ -11,11 +11,11 @@ import com.wecp.progressive.repository.AccountRepository;
 
 @Service
 public class AccountServiceImplJpa implements AccountService {
-    
+
     @Autowired
     private AccountRepository accountRepository;
 
-    public AccountServiceImplJpa (){
+    public AccountServiceImplJpa() {
 
     }
 
@@ -45,20 +45,19 @@ public class AccountServiceImplJpa implements AccountService {
 
     @Override
     public void updateAccount(Accounts accounts) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateAccount'");
+        Accounts retrievedAccounts = accountRepository.findById(accounts.getAccountId()).get();
+        retrievedAccounts.setBalance(accounts.getBalance());
+        retrievedAccounts.setCustomer(accounts.getCustomer());
+        accountRepository.save(retrievedAccounts);
     }
 
     @Override
     public void deleteAccount(int accountId) throws SQLException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteAccount'");
+        accountRepository.deleteById(accountId);
     }
 
     @Override
     public List<Accounts> getAllAccountsSortedByBalance() throws SQLException {
-        // List<Accounts> accounts = accountRepository.findAll();
-        // Collections.sort(accounts);
         return accountRepository.findByOrderByBalance();
     }
 
@@ -86,5 +85,4 @@ public class AccountServiceImplJpa implements AccountService {
         throw new UnsupportedOperationException("Unimplemented method 'emptyArrayList'");
     }
 
-    
 }
