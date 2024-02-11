@@ -44,7 +44,7 @@ public class CustomerController {
     @DeleteMapping("/{customerId}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable int customerId) throws SQLException {
         customerService.deleteCustomer(customerId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<List<Transactions>> getAllTransactionsByCustomerId(int cutomerId) {
