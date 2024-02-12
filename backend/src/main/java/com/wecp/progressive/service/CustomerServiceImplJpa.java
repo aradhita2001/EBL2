@@ -45,12 +45,16 @@ public class CustomerServiceImplJpa implements CustomerService {
 
         Optional<Customers> existingCustomer = customerRepository.findByNameAndEmail(name, email);
         if(existingCustomer.isPresent()) throw new CustomerAlreadyExistsException("customer already exists");
+        
+        //customers must have a role
+        if(customers.getRole().isBlank()) return -1;
+        
         return customerRepository.save(customers).getCustomerId();
     }
 
     @Override
     public void updateCustomer(Customers customers) throws SQLException {
-        if(customerRepository.existsById(customers.getCustomerId())){
+        if(customerRepository.existsById(customers.getCustomerId()) && !customers.getRole().isBlank()){
             customerRepository.save(customers);
         }
     }
