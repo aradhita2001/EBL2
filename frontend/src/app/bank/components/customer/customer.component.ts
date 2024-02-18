@@ -27,6 +27,7 @@ export class CustomerComponent implements OnInit {
       email: ["", [Validators.required]],
       username: ["", [Validators.required]],
       password: ["", [Validators.required]],
+      role:["",[Validators.required]]
     });
   }
   hasSpecialCharacters(inputString:string):boolean {

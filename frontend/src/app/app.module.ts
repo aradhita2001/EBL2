@@ -5,12 +5,10 @@ import { EffectsModule } from "@ngrx/effects";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "src/environments/environment";
-
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { AuthInterceptor } from "./auth.interceptors";
 // import { NavBarComponent } from "./navbar/navbar.component"; // Correct the case here
-
 @NgModule({
   declarations: [AppComponent], // Correct the case here
   imports: [

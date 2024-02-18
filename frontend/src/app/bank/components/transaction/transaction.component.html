@@ -1,6 +1,5 @@
-
 <app-navbar></app-navbar>
-
+ 
 <h2 style="text-align: center">Make a Transaction</h2>
 <form
   (ngSubmit)="onSubmit()"
@@ -22,15 +21,15 @@
   <div class="form-group">
     <label for="amount">Amount:</label>
     <input type="number" id="amount" formControlName="amount" />
-
+ 
   </div>
   <div class="form-group">
     <label for="transaction_type">Transaction Type:</label>
-    <input type="radio" id="transaction_type" formControlName="transactionType" value="1" /> Credit
-    <input type="radio" id="transaction_type" formControlName="transactionType" value="2"/> Debit
+    <input type="radio" id="transaction_type" formControlName="transactionType" value="credit" /> Credit
+    <input type="radio" id="transaction_type" formControlName="transactionType" value="debit"/> Debit
   </div>
   <!-- <input type="hidden" [value]="new Date()"/> -->
-
+ 
   <button type="submit" class="btn-submit">Submit</button>
   <ng-container>
     <div *ngIf="transactionError$ | async as error" class="error">
@@ -41,7 +40,7 @@
     </div>
   </ng-container>
   <a routerLink="/bank" class="task-list" class="task-list">Dashboard</a>
-
+ 
 </form>
-
-
+ 
+ 

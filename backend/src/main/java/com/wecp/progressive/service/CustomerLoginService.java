@@ -50,10 +50,13 @@ public class CustomerLoginService implements UserDetailsService {
     }
 
     public Customers updateUser(Customers user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         return customerRepository.save(user);
     }
 
     public void deleteUser(Integer id) {
+        
         customerRepository.deleteById(id);
     }
 
@@ -63,7 +66,8 @@ public class CustomerLoginService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
-
+        // ArrayList<String> role = new ArrayList<>();
+        // role.add(user.getRole());
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
